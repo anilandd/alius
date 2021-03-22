@@ -7,6 +7,7 @@ import './App.css';
 // import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.development'; // ?
 import { drawHand } from "./utilities";
 import * as fp from 'fingerpose';
+import {lSign} from './L';
 import thumbs_up from "./thumbs_up.png";
 
 
@@ -48,16 +49,18 @@ function App() {
       // make detections
       const hand = await net.estimateHands(video);
       
-      console.log(hand);
+      // console.log(hand);
       
       // gesture detections
       if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
-          fp.Gestures.ThumbsUpGesture
-        ])
-        const gesture = await GE.estimate(hand[0].landmarks, 8);
-        console.log(gesture);
+          fp.Gestures.ThumbsUpGesture,
+          lSign
+        ]);
+        const gesture = await GE.estimate(hand[0].landmarks, 4);
+        
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
+          console.log(gesture.gestures);
           const confidence = gesture.gestures.map(
             (prediction) => prediction.confidence
           );
@@ -65,7 +68,8 @@ function App() {
             Math.max.apply(null, confidence)
           );
           setSign(gesture.gestures[maxConfidence].name);
-          console.log("Gesture detected: " + sign);
+          console.log("Gesture detected!");
+          console.log(gesture.gestures[maxConfidence].name);
         }
       }
       // draw mesh
