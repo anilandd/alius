@@ -7,7 +7,19 @@ import './App.css';
 // import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.development'; // ?
 import { drawHand } from "./utilities";
 import * as fp from 'fingerpose';
-import {lSign} from './L';
+
+import {aSign1} from './letters/A_1';
+import {vSign3} from './letters/V_3';
+import {gSign4} from './letters/G_4';
+import {eSign7} from './letters/E_7';
+import {dgSign9} from './letters/Dg_9';
+import {zSign10} from './letters/Z_10';
+import {iSign12} from './letters/I_12';
+import {pSign20} from './letters/P_20';
+import {shSign29} from './letters/Sh_29';
+import {softSign33} from './letters/Soft_33';
+
+
 import thumbs_up from "./thumbs_up.png";
 
 
@@ -21,7 +33,10 @@ function App() {
 
   const runHandpose = async () => {
     const net = await handpose.load();
-    console.log('Handpose model is loaded.');
+    // console.log('Handpose model is loaded.');
+
+    console.log('Модель завантажена.');
+
     // continuous detection in a loop
     setInterval(()=>{
       detect(net);
@@ -54,10 +69,19 @@ function App() {
       // gesture detections
       if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
-          fp.Gestures.ThumbsUpGesture,
-          lSign
+          // fp.Gestures.ThumbsUpGesture,
+          aSign1,
+          vSign3,
+          gSign4,
+          eSign7,
+          dgSign9,
+          zSign10,
+          iSign12,
+          pSign20,
+          shSign29,
+          softSign33
         ]);
-        const gesture = await GE.estimate(hand[0].landmarks, 4);
+        const gesture = await GE.estimate(hand[0].landmarks, 5);
         
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           console.log(gesture.gestures);
