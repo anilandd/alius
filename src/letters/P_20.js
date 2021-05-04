@@ -19,7 +19,7 @@ for (let finger of [Finger.Index, Finger.Middle]) {
 // ring, pinky
 for (let finger of [Finger.Ring, Finger.Pinky]) {
     pSign20.addCurl(finger, FingerCurl.FullCurl, 1.0);
-    pSign20.addDirection(finger, FingerDirection.VerticalDown, 0.2);
+    // pSign20.addDirection(finger, FingerDirection.VerticalDown, 0.2);
     pSign20.addDirection(finger, FingerDirection.DiagonalDownLeft, 1.0);
     pSign20.addDirection(finger, FingerDirection.HorizontalLeft, 0.2);
 }

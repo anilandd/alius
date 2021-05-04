@@ -25,8 +25,5 @@ for (let finger of [Finger.Middle, Finger.Ring, Finger.Pinky]) {
     zSign10.addDirection(finger, FingerDirection.VerticalUp, 0.2);
     zSign10.addDirection(finger, FingerDirection.DiagonalUpLeft, 1.0);
     zSign10.addDirection(finger, FingerDirection.HorizontalLeft, 0.2);
-
-    zSign10.addCurl(finger, FingerCurl.NoCurl, 1.0);
-    zSign10.addDirection(finger, FingerDirection.VerticalUp, 1.0);
 }
 

@@ -15,7 +15,12 @@ import {eSign7} from './letters/E_7';
 import {dgSign9} from './letters/Dg_9';
 import {zSign10} from './letters/Z_10';
 import {iSign12} from './letters/I_12';
+import {nSign18} from './letters/N_18';
+import {oSign19} from './letters/O_19';
 import {pSign20} from './letters/P_20';
+import {rSign21} from './letters/R_21';
+import {sSign22} from './letters/S_22';
+import {tSign23} from './letters/T_23';
 import {shSign29} from './letters/Sh_29';
 import {softSign33} from './letters/Soft_33';
 
@@ -77,7 +82,12 @@ function App() {
           dgSign9,
           zSign10,
           iSign12,
+          nSign18,
+          oSign19,
           pSign20,
+          rSign21,
+          sSign22,
+          tSign23,
           shSign29,
           softSign33
         ]);

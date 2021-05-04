@@ -18,6 +18,6 @@ for (let finger of [Finger.Index, Finger.Middle, Finger.Ring]) {
 
 // pinky:
 shSign29.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
-shSign29.addDirection(Finger.Pinky, FingerDirection.VerticalUp, 0.2);
-shSign29.addDirection(Finger.Pinky, FingerDirection.DiagonalUpLeft, 1.0);
+shSign29.addDirection(Finger.Pinky, FingerDirection.VerticalDown, 0.2);
+shSign29.addDirection(Finger.Pinky, FingerDirection.DiagonalDownLeft, 1.0);
 shSign29.addDirection(Finger.Pinky, FingerDirection.HorizontalLeft, 0.2);
