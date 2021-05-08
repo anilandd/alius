@@ -9,7 +9,7 @@ import { drawHand } from "./utilities";
 import * as fp from 'fingerpose';
 
 import {aSign1} from './letters/A_1';
-// import {vSign3} from './letters/V_3';
+import {vSign3} from './letters/V_3';
 // import {gSign4} from './letters/G_4';
 // import {eSign7} from './letters/E_7';
 // import {dgSign9} from './letters/Dg_9';
@@ -75,8 +75,8 @@ function App() {
       if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
-          aSign1
-          // vSign3,
+          aSign1,
+          vSign3
           // gSign4,
           // eSign7,
           // dgSign9,
@@ -91,7 +91,7 @@ function App() {
           // shSign29,
           // softSign33
         ]);
-        const gesture = await GE.estimate(hand[0].landmarks, 5);
+        const gesture = await GE.estimate(hand[0].landmarks, 8);
         // debugger;
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           console.log(gesture.gestures);
