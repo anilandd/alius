@@ -10,7 +10,7 @@ import * as fp from 'fingerpose';
 
 import {aSign1} from './letters/A_1';
 import {vSign3} from './letters/V_3';
-// import {gSign4} from './letters/G_4';
+import {gSign4} from './letters/G_4';
 // import {eSign7} from './letters/E_7';
 // import {dgSign9} from './letters/Dg_9';
 // import {zSign10} from './letters/Z_10';
@@ -76,8 +76,8 @@ function App() {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
           aSign1,
-          vSign3
-          // gSign4,
+          vSign3,
+          gSign4
           // eSign7,
           // dgSign9,
           // zSign10,
@@ -92,7 +92,7 @@ function App() {
           // softSign33
         ]);
         const gesture = await GE.estimate(hand[0].landmarks, 8);
-        // debugger;
+        debugger;
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           console.log(gesture.gestures);
           const confidence = gesture.gestures.map(
