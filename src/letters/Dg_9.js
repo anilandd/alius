@@ -6,16 +6,25 @@ export const dgSign9 =  new GestureDescription('ж');
 
 // thumb
 dgSign9.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0);
-dgSign9.addDirection(Finger.Thumb, FingerDirection.HorizontalLeft, 0.75);
-dgSign9.addDirection(Finger.Thumb, FingerDirection.HorizontalRight, 0.75);
-dgSign9.addDirection(Finger.Thumb, FingerDirection.DiagonalDownLeft, 0.25);
-dgSign9.addDirection(Finger.Thumb, FingerDirection.DiagonalDownRight, 0.25);
+dgSign9.addDirection(Finger.Thumb, FingerDirection.HorizontalLeft, 1.0);
+dgSign9.addDirection(Finger.Thumb, FingerDirection.HorizontalRight, 1.0);
 
-// index, middle, ring, pinky
-for (let finger of [Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky]) {
-    dgSign9.addCurl(finger, FingerCurl.NoCurl, 0.75);
-    dgSign9.addDirection(finger, FingerDirection.HorizontalLeft, 0.5); 
-    dgSign9.addDirection(finger, FingerDirection.HorizontalRight, 0.5);
-    dgSign9.addDirection(finger, FingerDirection.DiagonalDownLeft, 0.25);
-    dgSign9.addDirection(finger, FingerDirection.DiagonalDownRight, 0.25);
-}
+// index
+dgSign9.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0);
+dgSign9.addDirection(Finger.Index, FingerDirection.HorizontalLeft, 1.0);
+dgSign9.addDirection(Finger.Index, FingerDirection.HorizontalRight, 1.0);
+
+// middle
+dgSign9.addCurl(Finger.Middle, FingerCurl.NoCurl, 1.0);
+dgSign9.addDirection(Finger.Middle, FingerDirection.HorizontalLeft, 1.0);
+dgSign9.addDirection(Finger.Middle, FingerDirection.HorizontalRight, 1.0);
+
+// ring
+dgSign9.addCurl(Finger.Ring, FingerCurl.NoCurl, 1.0);
+dgSign9.addDirection(Finger.Ring, FingerDirection.HorizontalLeft, 1.0);
+dgSign9.addDirection(Finger.Ring, FingerDirection.HorizontalRight, 1.0);
+
+// pinky
+dgSign9.addCurl(Finger.Pinky, FingerCurl.NoCurl, 1.0);
+dgSign9.addDirection(Finger.Pinky, FingerDirection.HorizontalLeft, 1.0);
+dgSign9.addDirection(Finger.Pinky, FingerDirection.HorizontalRight, 1.0);
