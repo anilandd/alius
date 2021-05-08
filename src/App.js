@@ -13,7 +13,7 @@ import {vSign3} from './letters/V_3';
 import {gSign4} from './letters/G_4';
 import {eSign7} from './letters/E_7';
 import {dgSign9} from './letters/Dg_9';
-// import {zSign10} from './letters/Z_10';
+import {zSign10} from './letters/Z_10';
 // import {iSign12} from './letters/I_12';
 // import {nSign18} from './letters/N_18';
 // import {oSign19} from './letters/O_19';
@@ -79,8 +79,8 @@ function App() {
           vSign3,
           gSign4,
           eSign7,
-          dgSign9
-          // zSign10,
+          dgSign9,
+          zSign10
           // iSign12,
           // nSign18,
           // oSign19,
