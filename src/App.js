@@ -9,20 +9,20 @@ import { drawHand } from "./utilities";
 import * as fp from 'fingerpose';
 
 import {aSign1} from './letters/A_1';
-import {vSign3} from './letters/V_3';
-import {gSign4} from './letters/G_4';
-import {eSign7} from './letters/E_7';
-import {dgSign9} from './letters/Dg_9';
-import {zSign10} from './letters/Z_10';
-import {iSign12} from './letters/I_12';
-import {nSign18} from './letters/N_18';
-import {oSign19} from './letters/O_19';
-import {pSign20} from './letters/P_20';
-import {rSign21} from './letters/R_21';
-import {sSign22} from './letters/S_22';
-import {tSign23} from './letters/T_23';
-import {shSign29} from './letters/Sh_29';
-import {softSign33} from './letters/Soft_33';
+// import {vSign3} from './letters/V_3';
+// import {gSign4} from './letters/G_4';
+// import {eSign7} from './letters/E_7';
+// import {dgSign9} from './letters/Dg_9';
+// import {zSign10} from './letters/Z_10';
+// import {iSign12} from './letters/I_12';
+// import {nSign18} from './letters/N_18';
+// import {oSign19} from './letters/O_19';
+// import {pSign20} from './letters/P_20';
+// import {rSign21} from './letters/R_21';
+// import {sSign22} from './letters/S_22';
+// import {tSign23} from './letters/T_23';
+// import {shSign29} from './letters/Sh_29';
+// import {softSign33} from './letters/Soft_33';
 
 
 import thumbs_up from "./thumbs_up.png";
@@ -75,24 +75,24 @@ function App() {
       if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
-          aSign1,
-          vSign3,
-          gSign4,
-          eSign7,
-          dgSign9,
-          zSign10,
-          iSign12,
-          nSign18,
-          oSign19,
-          pSign20,
-          rSign21,
-          sSign22,
-          tSign23,
-          shSign29,
-          softSign33
+          aSign1
+          // vSign3,
+          // gSign4,
+          // eSign7,
+          // dgSign9,
+          // zSign10,
+          // iSign12,
+          // nSign18,
+          // oSign19,
+          // pSign20,
+          // rSign21,
+          // sSign22,
+          // tSign23,
+          // shSign29,
+          // softSign33
         ]);
         const gesture = await GE.estimate(hand[0].landmarks, 5);
-        
+        // debugger;
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           console.log(gesture.gestures);
           const confidence = gesture.gestures.map(
