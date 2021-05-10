@@ -37,10 +37,13 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);  
 
+  let signNumber = 1;
+
   const [sign, setSign] = useState(null);
   const [done, setDone] = useState(false);
-  // const [taskLetterNumber, setTaskLetterNumber] = useState(1);
-  // const [taskLetter, setTaskLetter] = useState("в");
+  
+
+  
   
 
   const images = {
@@ -57,11 +60,11 @@ function App() {
 
     // continuous detection in a loop
     setInterval(()=>{
-      detect(net);
+      detect(net, "г");
     }, 100);
   };
 
-  const detect = async (net) => {
+  const detect = async (net, taskLetter) => {
 
     // validation of dtoIn
     if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null && webcamRef.current.video.readyState === 4) {
@@ -122,13 +125,16 @@ function App() {
           console.log("now gesture: " + gesture.gestures[maxConfidence].name)
           
           // user accomplished the task
-          if (gesture.gestures[maxConfidence].name == "в") {
+          if (gesture.gestures[maxConfidence].name == taskLetter) {
             console.log("Gesture в detected!");
             setDone(true);
+
             setTimeout(()=>{
               setDone(false);;
             }, 3000);
             
+            signNumber = signNumber + 1;
+            console.log("number : " + signNumber);
           }
         }
 
@@ -204,19 +210,18 @@ function App() {
           height: '10vw',
           }} />
 
-
-        {/* {sign !== null ? 
-          <img src={images[v_example]} style={{
+        {/* <div style={{
             position: "absolute",
-            top: '55vh',
-            bottom: '15vh',
+            bottom: 0,
             marginLeft: "auto",
             marginRight: "auto",
             textAlign: "center",
             zIndex: 10,
-            width: '30vh',
-            height: '30vw',
-            }} />: ""} */}
+            width: '70vh',
+            height: '10vw',
+        }}>
+          <button onClick={() => setNumber(number+1)}>Наступна літера</button>
+        </div> */}
         
         {done !== true ? 
           <div style={{
@@ -228,8 +233,9 @@ function App() {
             zIndex: 10,
             width: '70vh',
             height: '10vw',
+            padding: 10,
         }}>
-          Покажіть в
+          Покажіть літеру під номером {signNumber}
         </div> : ""}
 
         {done == true ? 
