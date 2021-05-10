@@ -19,13 +19,14 @@ import {nSign18} from './letters/N_18';
 import {oSign19} from './letters/O_19';
 import {pSign20} from './letters/P_20';
 // import {rSign21} from './letters/R_21';
-// import {sSign22} from './letters/S_22';
+import {sSign22} from './letters/S_22';
 // import {tSign23} from './letters/T_23';
 // import {shSign29} from './letters/Sh_29';
 // import {softSign33} from './letters/Soft_33';
 
 
 import thumbs_up from "./thumbs_up.png";
+import { Reduction } from '@tensorflow/tfjs';
 
 
 function App() {
@@ -49,12 +50,10 @@ function App() {
   };
 
   const detect = async (net) => {
+
     // validation of dtoIn
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
+    if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null && webcamRef.current.video.readyState === 4) {
+
       // get video properties
       const video = webcamRef.current.video;
       // video.style.transform = 'scale(-1, 1)';
@@ -66,13 +65,13 @@ function App() {
       // set canvas height and width
       canvasRef.current.width = videoWidth;
       canvasRef.current.height =videoHeight;
+
       // make detections
       const hand = await net.estimateHands(video);
-      
-      // console.log(hand);
-      
-      // gesture detections
+
+      // сontinuos gesture detections
       if (hand.length > 0) {
+
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
           aSign1,
@@ -84,28 +83,52 @@ function App() {
           iSign12,
           nSign18,
           oSign19,
-          pSign20
-          // rSign21,
-          // sSign22,
+          pSign20,
+          // rSign21
+          sSign22
           // tSign23,
           // shSign29,
           // softSign33
         ]);
+
+        // get only gestures with 8+ confidance
         const gesture = await GE.estimate(hand[0].landmarks, 8);
-        debugger;
+
+        // for target sign
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
+
+          // all detected gestures
           console.log(gesture.gestures);
-          const confidence = gesture.gestures.map(
-            (prediction) => prediction.confidence
-          );
-          const maxConfidence = confidence.indexOf(
-            Math.max.apply(null, confidence)
-          );
-          setSign(gesture.gestures[maxConfidence].name);
-          console.log("Gesture detected!");
-          console.log(gesture.gestures[maxConfidence].name);
+
+          for (let g = 0; g < gesture.gestures.length; g++) {
+            
+            // for vSign3
+            if (GE.gestures[1].name == gesture.gestures[g].name) {
+              console.log("В is made!");
+              console.log(gesture.gestures[g].name);
+              setSign(gesture.gestures[g].name);
+            }
+
+          }
+
         }
+
+        // // for all possible gestures
+        // if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
+        //   console.log(gesture.gestures);
+        //   const confidence = gesture.gestures.map(
+        //     (prediction) => prediction.confidence
+        //   );
+        //   const maxConfidence = confidence.indexOf(
+        //     Math.max.apply(null, confidence)
+        //   );
+        //   setSign(gesture.gestures[maxConfidence].name);
+        //   console.log("Gesture detected!");
+        //   console.log(gesture.gestures[maxConfidence].name);
+        // }
+
       }
+
       // draw mesh
       const ctx = canvasRef.current.getContext("2d");
       drawHand(hand, ctx);
@@ -118,6 +141,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        {sign !== null ? 
+        <img src={images[thumbs_up]} style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 400,
+            bottom: 500,
+            right: 0,
+            textAlign: "center",
+            height: 100,
+            zIndex:10,
+          }} />: ""}
         <Webcam 
           ref={webcamRef}
           style={{
@@ -128,8 +163,8 @@ function App() {
             right:0,
             textAlign:"center",
             zIndex:9,
-            width:640,
-            height:480
+            width: '70vw',
+            height: '50vh',
           }}
         />
         <canvas
@@ -141,34 +176,24 @@ function App() {
             left:0,
             right:0,
             textAlign:"center",
-            zIndex:9,
-            width:640,
-            height:480
+            zIndex:8,
+            width: '70vw',
+            height: '50vh',
           }}
         />
-        {sign !== null ? <img src={images[sign]} style={{
+        {sign !== null ? <div style={{
           position: "absolute",
+          bottom: 0,
           marginLeft: "auto",
           marginRight: "auto",
-          left: 400,
-          bottom: 500,
-          right: 0,
           textAlign: "center",
-          height: 100,
-          zIndex:10,
-        }} />: ""}
-        {/* {sign !== null ? <div style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 400,
-          bottom: 500,
-          right: 0,
-          textAlign: "center",
-          height: 100,
+          zIndex: 10,
+          width: '70vh',
+          height: '10vw',
         }}>
-          Detected! 
-        </div> : ""} */}
+          Вірно! 
+        </div> : ""}
+
       </header>
     </div>
   );
