@@ -25,7 +25,11 @@ import {sSign22} from './letters/S_22';
 // import {softSign33} from './letters/Soft_33';
 
 
+
 import thumbs_up from "./thumbs_up.png";
+import v_example from "./vSign3.png";
+
+
 import { Reduction } from '@tensorflow/tfjs';
 
 
@@ -35,7 +39,12 @@ function App() {
   const canvasRef = useRef(null);  
 
   const [sign, setSign] = useState(null);
-  const images = {thumbs_up: thumbs_up};
+
+  const images = {
+    thU: thumbs_up,
+    3: v_example
+  };
+
 
   const runHandpose = async () => {
     const net = await handpose.load();
@@ -141,30 +150,21 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {sign !== null ? 
-        <img src={images[thumbs_up]} style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 400,
-            bottom: 500,
-            right: 0,
-            textAlign: "center",
-            height: 100,
-            zIndex:10,
-          }} />: ""}
         <Webcam 
           ref={webcamRef}
           style={{
             position:"absolute",
             marginLeft:"auto",
             marginRight:"auto",
+            top: 0,
             left:0,
             right:0,
             textAlign:"center",
-            zIndex:9,
+            zIndex:8,
             width: '70vw',
             height: '50vh',
+            maxWidth: 640,
+            maxHeight: 480,
           }}
         />
         <canvas
@@ -173,23 +173,64 @@ function App() {
             position:"absolute",
             marginLeft:"auto",
             marginRight:"auto",
+            top: 0,
             left:0,
             right:0,
             textAlign:"center",
-            zIndex:8,
+            zIndex:9,
             width: '70vw',
             height: '50vh',
+            maxWidth: 640,
+            maxHeight: 480,
           }}
         />
-        {sign !== null ? <div style={{
+        {/* {sign !== null ? <img src={images[thumbs_up]} style={{
           position: "absolute",
-          bottom: 0,
           marginLeft: "auto",
           marginRight: "auto",
+          left: 400,
+          bottom: 500,
+          right: 0,
           textAlign: "center",
-          zIndex: 10,
-          width: '70vh',
-          height: '10vw',
+          height: 100,
+          zIndex:10,
+        }} />: ""} */}
+
+        <img src={images[3]} style={{
+            position: "absolute",
+            top: '55vh',
+            bottom: '15vh',
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '30vh',
+            height: '10vw',
+            }} />
+
+
+        {/* {sign !== null ? 
+          <img src={images[v_example]} style={{
+            position: "absolute",
+            top: '55vh',
+            bottom: '15vh',
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '30vh',
+            height: '30vw',
+            }} />: ""} */}
+        {sign !== null ? 
+          <div style={{
+            position: "absolute",
+            bottom: 0,
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '70vh',
+            height: '10vw',
         }}>
           Вірно! 
         </div> : ""}
