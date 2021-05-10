@@ -2,7 +2,6 @@ import React, {useRef, useState, useEffect} from 'react';
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
-// import logo from './logo.svg';
 import './App.css';
 // import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.development'; // ?
 import { drawHand } from "./utilities";
@@ -30,7 +29,7 @@ import thumbs_up from "./thumbs_up.png";
 import v_example from "./vSign3.png";
 
 
-import { Reduction } from '@tensorflow/tfjs';
+import { Reduction, Sign } from '@tensorflow/tfjs';
 
 
 function App() {
@@ -116,6 +115,7 @@ function App() {
               console.log("В is made!");
               console.log(gesture.gestures[g].name);
               setSign(gesture.gestures[g].name);
+              console.log(sign);
             }
 
           }
@@ -221,6 +221,7 @@ function App() {
             width: '30vh',
             height: '30vw',
             }} />: ""} */}
+        
         {sign !== null ? 
           <div style={{
             position: "absolute",
@@ -232,7 +233,7 @@ function App() {
             width: '70vh',
             height: '10vw',
         }}>
-          Вірно! 
+          Вірно! {sign}
         </div> : ""}
 
       </header>
