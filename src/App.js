@@ -38,6 +38,10 @@ function App() {
   const canvasRef = useRef(null);  
 
   const [sign, setSign] = useState(null);
+  const [done, setDone] = useState(false);
+  // const [taskLetterNumber, setTaskLetterNumber] = useState(1);
+  // const [taskLetter, setTaskLetter] = useState("в");
+  
 
   const images = {
     thU: thumbs_up,
@@ -79,6 +83,7 @@ function App() {
 
       // сontinuos gesture detections
       if (hand.length > 0) {
+        setDone(false);
 
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
@@ -99,42 +104,33 @@ function App() {
           // softSign33
         ]);
 
+        
+
         // get only gestures with 8+ confidance
         const gesture = await GE.estimate(hand[0].landmarks, 8);
 
-        // for target sign
+        // for all possible gestures
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-
-          // all detected gestures
           console.log(gesture.gestures);
-
-          for (let g = 0; g < gesture.gestures.length; g++) {
+          const confidence = gesture.gestures.map(
+            (prediction) => prediction.confidence
+          );
+          const maxConfidence = confidence.indexOf(
+            Math.max.apply(null, confidence)
+          );
+          setSign(gesture.gestures[maxConfidence].name);
+          console.log("now gesture: " + gesture.gestures[maxConfidence].name)
+          
+          // user accomplished the task
+          if (gesture.gestures[maxConfidence].name == "в") {
+            console.log("Gesture в detected!");
+            setDone(true);
+            setTimeout(()=>{
+              setDone(false);;
+            }, 3000);
             
-            // for vSign3
-            if (GE.gestures[1].name == gesture.gestures[g].name) {
-              console.log("В is made!");
-              console.log(gesture.gestures[g].name);
-              setSign(gesture.gestures[g].name);
-              console.log(sign);
-            }
-
           }
-
         }
-
-        // // for all possible gestures
-        // if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-        //   console.log(gesture.gestures);
-        //   const confidence = gesture.gestures.map(
-        //     (prediction) => prediction.confidence
-        //   );
-        //   const maxConfidence = confidence.indexOf(
-        //     Math.max.apply(null, confidence)
-        //   );
-        //   setSign(gesture.gestures[maxConfidence].name);
-        //   console.log("Gesture detected!");
-        //   console.log(gesture.gestures[maxConfidence].name);
-        // }
 
       }
 
@@ -197,16 +193,16 @@ function App() {
         }} />: ""} */}
 
         <img src={images[3]} style={{
-            position: "absolute",
-            top: '55vh',
-            bottom: '15vh',
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: '30vh',
-            height: '10vw',
-            }} />
+          position: "absolute",
+          top: '55vh',
+          bottom: '15vh',
+          marginLeft: "auto",
+          marginRight: "auto",
+          textAlign: "center",
+          zIndex: 10,
+          width: '30vh',
+          height: '10vw',
+          }} />
 
 
         {/* {sign !== null ? 
@@ -222,7 +218,21 @@ function App() {
             height: '30vw',
             }} />: ""} */}
         
-        {sign !== null ? 
+        {done !== true ? 
+          <div style={{
+            position: "absolute",
+            bottom: 10,
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '70vh',
+            height: '10vw',
+        }}>
+          Покажіть в
+        </div> : ""}
+
+        {done == true ? 
           <div style={{
             position: "absolute",
             bottom: 0,
@@ -233,7 +243,7 @@ function App() {
             width: '70vh',
             height: '10vw',
         }}>
-          Вірно! {sign}
+          Вірно! Ви показали {sign}!
         </div> : ""}
 
       </header>
