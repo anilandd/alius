@@ -8,6 +8,7 @@ import { drawHand } from "./utilities";
 import * as fp from 'fingerpose';
 
 import {aSign1} from './letters/A_1';
+import {bSign2} from './letters/B_2';
 import {vSign3} from './letters/V_3';
 import {gSign4} from './letters/G_4';
 import {eSign7} from './letters/E_7';
@@ -26,7 +27,11 @@ import {sSign22} from './letters/S_22';
 
 
 import thumbs_up from "./thumbs_up.png";
-import v_example from "./vSign3.png";
+import a_example from "./letter_examples/aSign1.png";
+import b_example from "./letter_examples/bSign2.png";
+import v_example from "./letter_examples/vSign3.png";
+import g_example from "./letter_examples/gSign4.png";
+import ga_example from "./letter_examples/gaSign5.png";
 
 
 import { Reduction, Sign } from '@tensorflow/tfjs';
@@ -37,18 +42,24 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);  
 
-  let signNumber = 1;
+  
 
-  const [sign, setSign] = useState(null);
+  const [sign, setSign] = useState("");
+  const [taskSign, setTaskSign] = useState("");
   const [done, setDone] = useState(false);
-  
+  const [signNumber, setSignNumber] = useState(0);
+  let numState = 0;
+  const [example, setExample] = useState(true);
 
-  
   
 
   const images = {
-    thU: thumbs_up,
-    3: v_example
+    // 0: thumbs_up,
+    0: a_example,
+    1: b_example,
+    2: v_example,
+    3: g_example,
+    4: ga_example
   };
 
 
@@ -60,11 +71,11 @@ function App() {
 
     // continuous detection in a loop
     setInterval(()=>{
-      detect(net, "г");
+      detect(net);
     }, 100);
   };
 
-  const detect = async (net, taskLetter) => {
+  const detect = async (net) => {
 
     // validation of dtoIn
     if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null && webcamRef.current.video.readyState === 4) {
@@ -91,6 +102,7 @@ function App() {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
           aSign1,
+          bSign2,
           vSign3,
           gSign4,
           eSign7,
@@ -107,10 +119,10 @@ function App() {
           // softSign33
         ]);
 
-        
-
+      
         // get only gestures with 8+ confidance
         const gesture = await GE.estimate(hand[0].landmarks, 8);
+
 
         // for all possible gestures
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
@@ -121,20 +133,36 @@ function App() {
           const maxConfidence = confidence.indexOf(
             Math.max.apply(null, confidence)
           );
+
+
+          // just detected gesture
           setSign(gesture.gestures[maxConfidence].name);
-          console.log("now gesture: " + gesture.gestures[maxConfidence].name)
+          console.log("now gesture: " + gesture.gestures[maxConfidence].name);
+        
+          // setTaskSign(GE.gestures[signNumber].name);
+          console.log("your task : " + GE.gestures[numState].name);
           
+          setExample(true)
+          
+
+        
           // user accomplished the task
-          if (gesture.gestures[maxConfidence].name == taskLetter) {
+          if (gesture.gestures[maxConfidence].name == GE.gestures[numState].name) {
             console.log("Gesture в detected!");
             setDone(true);
 
-            setTimeout(()=>{
-              setDone(false);;
-            }, 3000);
+            numState = numState + 1;
+            setSignNumber(prevNumber => prevNumber + 1);
+
+
+            // setDone(false);
+            setExample(false);
+
+            // setTimeout(()=>{
+            //   setDone(false);
+            //   setExample(false);
+            // }, 3000);
             
-            signNumber = signNumber + 1;
-            console.log("number : " + signNumber);
           }
         }
 
@@ -163,10 +191,8 @@ function App() {
             right:0,
             textAlign:"center",
             zIndex:8,
-            width: '70vw',
-            height: '50vh',
-            maxWidth: 640,
-            maxHeight: 480,
+            width: 640,
+            height: 480,
           }}
         />
         <canvas
@@ -180,48 +206,23 @@ function App() {
             right:0,
             textAlign:"center",
             zIndex:9,
-            width: '70vw',
-            height: '50vh',
-            maxWidth: 640,
-            maxHeight: 480,
+            width: 640,
+            height: 480,
           }}
         />
-        {/* {sign !== null ? <img src={images[thumbs_up]} style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 400,
-          bottom: 500,
-          right: 0,
-          textAlign: "center",
-          height: 100,
-          zIndex:10,
-        }} />: ""} */}
 
-        <img src={images[3]} style={{
-          position: "absolute",
-          top: '55vh',
-          bottom: '15vh',
-          marginLeft: "auto",
-          marginRight: "auto",
-          textAlign: "center",
-          zIndex: 10,
-          width: '30vh',
-          height: '10vw',
-          }} />
-
-        {/* <div style={{
+        {example == true ?
+          <img src={images[signNumber]} style={{
             position: "absolute",
-            bottom: 0,
+            top: '55vh',
+            bottom: '15vh',
             marginLeft: "auto",
             marginRight: "auto",
             textAlign: "center",
             zIndex: 10,
-            width: '70vh',
-            height: '10vw',
-        }}>
-          <button onClick={() => setNumber(number+1)}>Наступна літера</button>
-        </div> */}
+            width: 200,
+            height: 200,
+            }} /> : ""}
         
         {done !== true ? 
           <div style={{
@@ -235,7 +236,8 @@ function App() {
             height: '10vw',
             padding: 10,
         }}>
-          Покажіть літеру під номером {signNumber}
+          Покажіть літеру як на картинці!
+          Номер картинки {signNumber}.
         </div> : ""}
 
         {done == true ? 
@@ -251,6 +253,32 @@ function App() {
         }}>
           Вірно! Ви показали {sign}!
         </div> : ""}
+
+                {/* <div style={{
+            position: "absolute",
+            bottom: 0,
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '70vh',
+            height: '10vw',
+        }}>
+          <button onClick={() => setNumber(number+1)}>Наступна літера</button>
+        </div> */}
+
+        {/* <input style={{
+            position: "absolute",
+            bottom: 15,
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            zIndex: 10,
+            width: '70vh',
+            height: '10vw',
+            padding: 10,
+        }}>
+        </input> */}
 
       </header>
     </div>
