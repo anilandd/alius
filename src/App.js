@@ -11,6 +11,7 @@ import {aSign1} from './letters/A_1';
 import {bSign2} from './letters/B_2';
 import {vSign3} from './letters/V_3';
 import {gSign4} from './letters/G_4';
+import {gaSign5} from './letters/Ga_5';
 import {eSign7} from './letters/E_7';
 import {dgSign9} from './letters/Dg_9';
 import {zSign10} from './letters/Z_10';
@@ -64,6 +65,7 @@ function App() {
 
 
   const runHandpose = async () => {
+    // debugger;
     const net = await handpose.load();
     // console.log('Handpose model is loaded.');
 
@@ -99,12 +101,15 @@ function App() {
       if (hand.length > 0) {
         setDone(false);
 
+
+
         const GE = new fp.GestureEstimator([
           // fp.Gestures.ThumbsUpGesture,
           aSign1,
           bSign2,
           vSign3,
           gSign4,
+          gaSign5,
           eSign7,
           dgSign9,
           zSign10,
@@ -123,6 +128,7 @@ function App() {
         // get only gestures with 8+ confidance
         const gesture = await GE.estimate(hand[0].landmarks, 8);
 
+        
 
         // for all possible gestures
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
@@ -149,6 +155,7 @@ function App() {
           // user accomplished the task
           if (gesture.gestures[maxConfidence].name == GE.gestures[numState].name) {
             console.log("Gesture в detected!");
+
             setDone(true);
 
             numState = numState + 1;
@@ -157,6 +164,8 @@ function App() {
 
             // setDone(false);
             setExample(false);
+
+            debugger;
 
             // setTimeout(()=>{
             //   setDone(false);
@@ -180,105 +189,109 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Webcam 
-          ref={webcamRef}
-          style={{
-            position:"absolute",
-            marginLeft:"auto",
-            marginRight:"auto",
-            top: 0,
-            left:0,
-            right:0,
-            textAlign:"center",
-            zIndex:8,
-            width: 640,
-            height: 480,
-          }}
-        />
-        <canvas
-          ref={canvasRef}
-          style={{
-            position:"absolute",
-            marginLeft:"auto",
-            marginRight:"auto",
-            top: 0,
-            left:0,
-            right:0,
-            textAlign:"center",
-            zIndex:9,
-            width: 640,
-            height: 480,
-          }}
-        />
-
-        {example == true ?
-          <img src={images[signNumber]} style={{
-            position: "absolute",
-            top: '55vh',
-            bottom: '15vh',
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: 200,
-            height: 200,
-            }} /> : ""}
         
-        {done !== true ? 
-          <div style={{
-            position: "absolute",
-            bottom: 10,
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: '70vh',
-            height: '10vw',
-            padding: 10,
-        }}>
-          Покажіть літеру як на картинці!
-          Номер картинки {signNumber}.
-        </div> : ""}
+        <Webcam 
+            ref={webcamRef}
+            style={{
+              position:"absolute",
+              marginLeft:"auto",
+              marginRight:"auto",
+              top: 0,
+              left:0,
+              right:0,
+              textAlign:"center",
+              zIndex:8,
+              width: 640,
+              height: 480,
+            }}
+          />
+          <canvas
+            ref={canvasRef}
+            style={{
+              position:"absolute",
+              marginLeft:"auto",
+              marginRight:"auto",
+              top: 0,
+              left:0,
+              right:0,
+              textAlign:"center",
+              zIndex:9,
+              width: 640,
+              height: 480,
+            }}
+          />
 
-        {done == true ? 
-          <div style={{
-            position: "absolute",
-            bottom: 0,
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: '70vh',
-            height: '10vw',
-        }}>
-          Вірно! Ви показали {sign}!
-        </div> : ""}
+          {example == true ?
+            <img src={images[signNumber]} style={{
+              position: "absolute",
+              top: '55vh',
+              bottom: '15vh',
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              zIndex: 10,
+              width: 200,
+              height: 200,
+              }} /> : ""}
+          
+          {done !== true ? 
+            <div style={{
+              position: "absolute",
+              bottom: 10,
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              zIndex: 10,
+              width: '70vh',
+              height: '10vw',
+              padding: 10,
+          }}>
+            <p style={{color:'pink'}}>Покажіть літеру, як на картинці!</p>
+            {/* Номер картинки {signNumber}. */}
+          </div> : ""}
 
-                {/* <div style={{
-            position: "absolute",
-            bottom: 0,
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: '70vh',
-            height: '10vw',
-        }}>
-          <button onClick={() => setNumber(number+1)}>Наступна літера</button>
-        </div> */}
+          {done == true ? 
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              zIndex: 10,
+              width: '70vh',
+              height: '10vw',
+          }}>
+            <p style={{color:'pink'}}>Покажіть літеру, як на картинці!</p>
+            
+            {/* Вірно! Ви показали а {sign}! */}
+          </div> : ""}
 
-        {/* <input style={{
-            position: "absolute",
-            bottom: 15,
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-            zIndex: 10,
-            width: '70vh',
-            height: '10vw',
-            padding: 10,
-        }}>
-        </input> */}
+                  {/* <div style={{
+              position: "absolute",
+              bottom: 0,
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              zIndex: 10,
+              width: '70vh',
+              height: '10vw',
+          }}>
+            <button onClick={() => setNumber(number+1)}>Наступна літера</button>
+          </div> */}
+
+          {/* <input style={{
+              position: "absolute",
+              bottom: 15,
+              marginLeft: "auto",
+              marginRight: "auto",
+              textAlign: "center",
+              zIndex: 10,
+              width: '70vh',
+              height: '10vw',
+              padding: 10,
+          }}>
+          </input> */}
+
 
       </header>
     </div>
